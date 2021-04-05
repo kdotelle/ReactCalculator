@@ -14,10 +14,7 @@ class App extends Component {
     super(props);
     this.state = {
       result: "Results Show Here",
-      input: " ",
-      operator: "",
-      prevNum: "",
-      curNum: "",
+      input: null,
     };
   }
 
@@ -48,12 +45,15 @@ class App extends Component {
 
   calculate = () => {
     if (this.state.input) {
+      let answ = "";
       parseFloat(this.state.input);
-    }
+      answ = eval(this.state.input);
 
-    this.setState({
-      result: String(this.state.input),
-    });
+      this.setState({
+        result: String(answ),
+        input: "",
+      });
+    }
   };
 
   delete = () => {
@@ -72,15 +72,11 @@ class App extends Component {
 
   inputPercent = () => {
     const value = parseFloat(this.state.input);
-    this.setState({
-      input: String(value / 100),
-    });
-  };
-
-  performOperation = (operator) => {
-    this.setState({
-      operator: operator,
-    });
+    if (this.state.input) {
+      this.setState({
+        input: String(value / 100),
+      });
+    }
   };
 
   render() {
@@ -91,10 +87,7 @@ class App extends Component {
             <p>Calculator</p>
           </header>
           <Display input={this.state.input} result={this.state.result} />
-          <Keypad
-            onClick={this.onClick}
-            performOperation={this.performOperation}
-          />
+          <Keypad onClick={this.onClick} />
         </div>
       </div>
     );

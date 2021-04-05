@@ -36,9 +36,8 @@ class Keypad extends Component {
         </button>
         <button
           className="operator"
-          name="+"
-          onClick={(e) => this.props.onClick(e.target.name)}
-          onPress={() => this.props.performOperation("+")}
+          name="operator"
+          onClick={(e) => this.props.onClick("+")}
         >
           +
         </button>
