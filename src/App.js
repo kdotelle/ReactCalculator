@@ -13,8 +13,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: "Results Show Here",
-      input: null,
+      result: "0",
+      input: "",
     };
   }
 
@@ -50,8 +50,8 @@ class App extends Component {
       answ = eval(this.state.input);
 
       this.setState({
-        result: String(answ),
-        input: "",
+        result: answ,
+        input: answ,
       });
     }
   };
