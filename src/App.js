@@ -7,6 +7,7 @@ import Keypad from "./components/KeypadComponent";
 //the results that are displayed in the Display component will need to update as input changes. that will be set in state
 //set the features for the calculator
 //set calculate function for when = is pressed
+//store the operator in state so the app remembers which operation to complete when calculate() is run
 
 class App extends Component {
   constructor(props) {
@@ -14,8 +15,30 @@ class App extends Component {
     this.state = {
       result: "Results Show Here",
       input: " ",
+      operator: "",
+      prevNum: "",
+      curNum: "",
     };
   }
+
+  onClick = (button) => {
+    if (button === "=") {
+      this.calculate();
+    } else if (button === "backspace") {
+      this.delete();
+    } else if (button === "clearAll") {
+      this.clearDisplay();
+    } else if (button === ".") {
+      this.inputDot();
+    } else if (button === "%") {
+      this.inputPercent();
+    } else {
+      this.setState({
+        input: this.state.input + button,
+      });
+    }
+  };
+
   clearDisplay = () => {
     this.setState({
       result: "0",
@@ -24,14 +47,12 @@ class App extends Component {
   };
 
   calculate = () => {
-    this.setState({
-      result: this.state.input,
-    });
-  };
+    if (this.state.input) {
+      parseFloat(this.state.input);
+    }
 
-  changeInput = (button) => {
     this.setState({
-      input: this.state.input + button,
+      result: String(this.state.input),
     });
   };
 
@@ -41,19 +62,40 @@ class App extends Component {
     });
   };
 
+  inputDot = () => {
+    if (!this.state.input.includes(".")) {
+      this.setState({
+        input: this.state.input + ".",
+      });
+    }
+  };
+
+  inputPercent = () => {
+    const value = parseFloat(this.state.input);
+    this.setState({
+      input: String(value / 100),
+    });
+  };
+
+  performOperation = (operator) => {
+    this.setState({
+      operator: operator,
+    });
+  };
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <p>Calculator</p>
-        </header>
-        <Display input={this.state.input} result={this.state.result} />
-        <Keypad
-          clearDisplay={this.clearDisplay}
-          changeInput={this.changeInput}
-          calculate={this.calculate}
-          delete={this.delete}
-        />
+        <div className="calcBody">
+          <header className="App-header">
+            <p>Calculator</p>
+          </header>
+          <Display input={this.state.input} result={this.state.result} />
+          <Keypad
+            onClick={this.onClick}
+            performOperation={this.performOperation}
+          />
+        </div>
       </div>
     );
   }

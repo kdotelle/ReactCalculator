@@ -9,8 +9,8 @@ class Display extends Component {
   render() {
     return (
       <div className="display">
-        <p>{this.props.result}</p>
-        <p>{this.props.input}</p>
+        <p className="result">{this.props.result}</p>
+        <p className="input">{this.props.input}</p>
       </div>
     );
   }
